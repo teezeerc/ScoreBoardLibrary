@@ -87,4 +87,47 @@ class ScoreBoardServiceTest extends Specification {
         then:
         thrown InvalidMatchState
     }
+
+    def "updating a score for never started match should throw exception"() {
+        given:
+        scoreBoardService.matches.clear()
+        when:
+        Team team1 = Team.builder().name("TeamA").build()
+        Team team2 = Team.builder().name("TeamB").build()
+        Match match = Match.builder().homeTeam(team1).awayTeam(team2).build()
+        scoreBoardService.updateScore(match, 0, 0)
+        then:
+        thrown InvalidMatchState
+    }
+
+    def "updating a score to a lower values than already present should throw exception"() {
+        given:
+        scoreBoardService.matches.clear()
+        when:
+        Team team1 = Team.builder().name("TeamA").build()
+        Team team2 = Team.builder().name("TeamB").build()
+        Match match = Match.builder().homeTeam(team1).awayTeam(team2).build()
+        scoreBoardService.startMatch(match)
+        scoreBoardService.updateScore(match, 3, 1)
+        scoreBoardService.updateScore(match, 1, 1)
+        then:
+        thrown InvalidMatchState
+    }
+
+    def "updating a score multiple times should yield match with updated score"() {
+        given:
+        scoreBoardService.matches.clear()
+        when:
+        Team team1 = Team.builder().name("TeamA").build()
+        Team team2 = Team.builder().name("TeamB").build()
+        Match match = Match.builder().homeTeam(team1).awayTeam(team2).build()
+        scoreBoardService.startMatch(match)
+        scoreBoardService.updateScore(match, 3, 1)
+        scoreBoardService.updateScore(match, 3, 2)
+        scoreBoardService.updateScore(match, 3, 3)
+        scoreBoardService.updateScore(match, 3, 4)
+        then:
+        scoreBoardService.matches.getAt(0).homeTeam.score == 3
+        scoreBoardService.matches.getAt(0).awayTeam.score == 4
+    }
 }
