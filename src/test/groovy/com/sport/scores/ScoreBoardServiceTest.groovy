@@ -21,6 +21,8 @@ class ScoreBoardServiceTest extends Specification {
     }
 
     def "after starting a match it should be added to matches collection"() {
+        given:
+        scoreBoardService.matches.clear()
         when:
         Team team1 = Team.builder().name("TeamA").build()
         Team team2 = Team.builder().name("TeamB").build()
@@ -31,6 +33,8 @@ class ScoreBoardServiceTest extends Specification {
     }
 
     def "starting a match with two teams in the same role should throw exception"() {
+        given:
+        scoreBoardService.matches.clear()
         when:
         Team team1 = Team.builder().name("TeamA").build()
         Match match = Match.builder().homeTeam(team1).awayTeam(team1).build()
@@ -40,6 +44,8 @@ class ScoreBoardServiceTest extends Specification {
     }
 
     def "starting a match that was already started should throw exception"() {
+        given:
+        scoreBoardService.matches.clear()
         when:
         Team team1 = Team.builder().name("TeamA").build()
         Team team2 = Team.builder().name("TeamB").build()
@@ -51,6 +57,8 @@ class ScoreBoardServiceTest extends Specification {
     }
 
     def "after finishing a match it should be removed from matches collection"() {
+        given:
+        scoreBoardService.matches.clear()
         when:
         Team team1 = Team.builder().name("TeamA").build()
         Team team2 = Team.builder().name("TeamB").build()
@@ -65,6 +73,8 @@ class ScoreBoardServiceTest extends Specification {
     }
 
     def "finishing a match that was never started should throw exception"() {
+        given:
+        scoreBoardService.matches.clear()
         when:
         Team team1 = Team.builder().name("TeamA").build()
         Team team2 = Team.builder().name("TeamB").build()
