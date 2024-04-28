@@ -1,5 +1,7 @@
 package com.sport.scores.model;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,6 +15,7 @@ import java.util.Comparator;
 @Getter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Match implements Comparable<Match>{
     @EqualsAndHashCode.Include
     private final Team homeTeam;
