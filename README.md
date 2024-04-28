@@ -1,4 +1,6 @@
 # Getting Started
+To use library in application, add 
+@EnableScoresLibrary annotation
 
 ### Reference Documentation
 For further reference, please consider the following sections:
