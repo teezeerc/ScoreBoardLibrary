@@ -12,7 +12,7 @@ public interface ScoreBoardService {
 
     void finishMatch(Match match) throws InvalidMatchState;
 
-    void updateScore(Match match, int homeTeamScore, int awayTeamScore) throws InvalidScore;
+    void updateScore(Match match, int homeTeamScore, int awayTeamScore) throws InvalidScore, InvalidMatchState;
 
     List<Match> getOngoingMatchesOrdered();
 }

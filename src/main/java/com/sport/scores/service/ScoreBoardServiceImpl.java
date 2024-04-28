@@ -37,13 +37,29 @@ public class ScoreBoardServiceImpl implements ScoreBoardService {
 
 
     @Override
-    public void updateScore(Match match, int homeTeamScore, int awayTeamScore) throws InvalidScore {
-
+    public void updateScore(Match match, int homeTeamScore, int awayTeamScore) throws InvalidScore, InvalidMatchState {
+        validateMatch(match);
+        validateScore(match, homeTeamScore, awayTeamScore);
+        if (!matches.contains(match)) {
+            throw new InvalidMatchState("Match doesn't exist, it was never started");
+        } else {
+            match.getHomeTeam().setScore(homeTeamScore);
+            match.getAwayTeam().setScore(awayTeamScore);
+        }
     }
 
     @Override
     public List<Match> getOngoingMatchesOrdered() {
         return null;
+    }
+
+    private void validateScore(Match match, int newHomeTeamScore, int newAwayTeamScore) throws InvalidScore {
+        int currentHomeTeamScore = match.getHomeTeam().getScore();
+        int currentAwayTeamScore = match.getAwayTeam().getScore();
+        if(newHomeTeamScore<currentHomeTeamScore || newAwayTeamScore<currentAwayTeamScore){
+            throw new InvalidScore("Scores for teams must be equal of greater than current scores and >=0");
+        }
+
     }
     private void validateMatch(Match match) throws InvalidMatchState {
         if (match == null) {
