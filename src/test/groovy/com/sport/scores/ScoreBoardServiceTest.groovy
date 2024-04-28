@@ -2,6 +2,7 @@ package com.sport.scores
 
 
 import com.sport.scores.exception.InvalidMatchState
+import com.sport.scores.exception.InvalidScore
 import com.sport.scores.model.Match
 import com.sport.scores.model.Team
 import com.sport.scores.service.ScoreBoardServiceImpl
@@ -111,7 +112,7 @@ class ScoreBoardServiceTest extends Specification {
         scoreBoardService.updateScore(match, 3, 1)
         scoreBoardService.updateScore(match, 1, 1)
         then:
-        thrown InvalidMatchState
+        thrown InvalidScore
     }
 
     def "updating a score multiple times should yield match with updated score"() {
