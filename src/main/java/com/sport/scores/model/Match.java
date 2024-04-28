@@ -27,7 +27,7 @@ public class Match {
     @Builder.Default
     private LocalDateTime finishDateTime = null;
 
-    private int getTotalScore(){
+    public int getTotalScore(){
         return getHomeTeam().getScore() + getAwayTeam().getScore();
     }
 

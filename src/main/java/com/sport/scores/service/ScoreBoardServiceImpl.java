@@ -5,9 +5,12 @@ import com.sport.scores.exception.InvalidScore;
 import com.sport.scores.model.Match;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ScoreBoardServiceImpl implements ScoreBoardService {
 
@@ -50,17 +53,23 @@ public class ScoreBoardServiceImpl implements ScoreBoardService {
 
     @Override
     public List<Match> getOngoingMatchesOrdered() {
-        return null;
+        List<Match> result = matches.stream()
+                .sorted(Comparator.comparing(Match::getTotalScore)
+                        .thenComparing(Match::getStartDateTime))
+                .collect(Collectors.toList());
+        Collections.reverse(result);
+        return result;
     }
 
     private void validateScore(Match match, int newHomeTeamScore, int newAwayTeamScore) throws InvalidScore {
         int currentHomeTeamScore = match.getHomeTeam().getScore();
         int currentAwayTeamScore = match.getAwayTeam().getScore();
-        if(newHomeTeamScore<currentHomeTeamScore || newAwayTeamScore<currentAwayTeamScore){
+        if (newHomeTeamScore < currentHomeTeamScore || newAwayTeamScore < currentAwayTeamScore) {
             throw new InvalidScore("Scores for teams must be equal of greater than current scores and >=0");
         }
 
     }
+
     private void validateMatch(Match match) throws InvalidMatchState {
         if (match == null) {
             throw new InvalidMatchState("Match can't be null");
