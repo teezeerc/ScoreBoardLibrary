@@ -9,14 +9,13 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
 
 @Builder
 @Getter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Match implements Comparable<Match>{
+public class Match {
     @EqualsAndHashCode.Include
     private final Team homeTeam;
     @EqualsAndHashCode.Include
@@ -31,11 +30,5 @@ public class Match implements Comparable<Match>{
     private int getTotalScore(){
         return getHomeTeam().getScore() + getAwayTeam().getScore();
     }
-    @Override
-    public int compareTo(Match other) {
-        return Comparator.comparing(Match::getTotalScore)
-                .thenComparing(Match::getStartDateTime)
-                .reversed()
-                .compare(this, other);
-    }
+
 }
