@@ -34,8 +34,7 @@ class ScoreBoardServiceTest extends Specification {
     def "starting a match with two teams in the same role should throw exception"() {
         when:
         Team team1 = Team.builder().name("TeamA").type(TeamType.HOME).build()
-        Team team2 = Team.builder().name("TeamB").type(TeamType.HOME).build()
-        Match match = Match.builder().homeTeam(team1).awayTeam(team2).build()
+        Match match = Match.builder().homeTeam(team1).awayTeam(team1).build()
         scoreBoardService.startMatch(match)
         then:
         thrown InvalidMatchState
