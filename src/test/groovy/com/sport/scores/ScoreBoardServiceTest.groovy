@@ -1,10 +1,9 @@
 package com.sport.scores
 
-import com.sport.scores.dict.TeamType
+
 import com.sport.scores.exception.InvalidMatchState
 import com.sport.scores.model.Match
 import com.sport.scores.model.Team
-import com.sport.scores.service.ScoreBoardService
 import com.sport.scores.service.ScoreBoardServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -23,8 +22,8 @@ class ScoreBoardServiceTest extends Specification {
 
     def "after starting a match it should be added to matches collection"() {
         when:
-        Team team1 = Team.builder().name("TeamA").type(TeamType.HOME).build()
-        Team team2 = Team.builder().name("TeamB").type(TeamType.AWAY).build()
+        Team team1 = Team.builder().name("TeamA").build()
+        Team team2 = Team.builder().name("TeamB").build()
         Match match = Match.builder().homeTeam(team1).awayTeam(team2).build()
         scoreBoardService.startMatch(match)
         then:
@@ -33,7 +32,7 @@ class ScoreBoardServiceTest extends Specification {
 
     def "starting a match with two teams in the same role should throw exception"() {
         when:
-        Team team1 = Team.builder().name("TeamA").type(TeamType.HOME).build()
+        Team team1 = Team.builder().name("TeamA").build()
         Match match = Match.builder().homeTeam(team1).awayTeam(team1).build()
         scoreBoardService.startMatch(match)
         then:
@@ -42,8 +41,8 @@ class ScoreBoardServiceTest extends Specification {
 
     def "starting a match that was already started should throw exception"() {
         when:
-        Team team1 = Team.builder().name("TeamA").type(TeamType.HOME).build()
-        Team team2 = Team.builder().name("TeamB").type(TeamType.AWAY).build()
+        Team team1 = Team.builder().name("TeamA").build()
+        Team team2 = Team.builder().name("TeamB").build()
         Match match = Match.builder().homeTeam(team1).awayTeam(team2).build()
         scoreBoardService.startMatch(match)
         scoreBoardService.startMatch(match)
